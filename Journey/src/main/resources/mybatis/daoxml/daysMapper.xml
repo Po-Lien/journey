@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="idv.cpl.springboot.dao.daysMapper">
+
+<select id="selectDays" resultType="idv.cpl.springboot.Vo.daysVo">
+
+SELECT days.* 
+FROM days 
+INNER JOIN journeys 
+ON journeys.titleId = days.titleId 
+	<where>
+		journeys.owner = #{owner} AND (days.del is null or days.del = '')
+	</where>
+
+</select>
+
+<update id="deleteDays">
+
+UPDATE days SET del='*'
+	<where>
+		days.titleId = #{titleId}
+	</where>
+
+</update>
+
+<insert id="insertDays" parameterType="idv.cpl.springboot.Vo.daysVo">
+
+INSERT INTO days(date, day, week, titleId) VALUES(#{date}, #{day}, #{week}, #{titleId})
+
+</insert>
+
+</mapper>
